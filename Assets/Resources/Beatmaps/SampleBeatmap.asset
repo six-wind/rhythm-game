@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dbc998df7f24f743bbe1f6c0ce3e780, type: 3}
+  m_Name: SampleBeatmap
+  m_EditorClassIdentifier: 
+  songName: Sample Beatmap
+  music: {fileID: 0}
+  bpm: 120
+  fallSpeed: 8
+  notes:
+  - time: 0
+    lane: 0
+  - time: 0.5
+    lane: 1
+  - time: 1
+    lane: 2
+  - time: 1.5
+    lane: 3
+  - time: 2
+    lane: 1
+  - time: 2.5
+    lane: 2
+  - time: 3
+    lane: 3
+  - time: 3.5
+    lane: 0
+  - time: 4
+    lane: 2
+  - time: 4.5
+    lane: 3
+  - time: 5
+    lane: 0
+  - time: 5.5
+    lane: 1
+  - time: 6
+    lane: 3
+  - time: 6.5
+    lane: 0
+  - time: 7
+    lane: 1
+  - time: 7.5
+    lane: 2
+  - time: 8
+    lane: 0
+  - time: 8.5
+    lane: 1
+  - time: 9
+    lane: 2
+  - time: 9.5
+    lane: 3
+  - time: 10
+    lane: 1
+  - time: 10.5
+    lane: 2
+  - time: 11
+    lane: 3
+  - time: 11.5
+    lane: 0
+  - time: 12
+    lane: 2
+  - time: 12.5
+    lane: 3
+  - time: 13
+    lane: 0
+  - time: 13.5
+    lane: 1
+  - time: 14
+    lane: 3
+  - time: 14.5
+    lane: 0
+  - time: 15
+    lane: 1
+  - time: 15.5
+    lane: 2

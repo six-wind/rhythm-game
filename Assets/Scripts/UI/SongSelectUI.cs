@@ -68,7 +68,7 @@ namespace RhythmGame
 
             if (availableBeatmaps.Count == 0)
             {
-                statusText.text = "未找到谱面。请在 Resources/Beatmaps 中创建谱面，或导入谱面 JSON。";
+                statusText.text = "No beatmaps found. Create one via Tools > RhythmGame > Create Sample Beatmap.";
             }
         }
 
@@ -103,7 +103,7 @@ namespace RhythmGame
             selectedBeatmap = beatmap;
             startButton.interactable = true;
             UpdateSongInfo();
-            statusText.text = $"已选择：{beatmap.songName}";
+            statusText.text = $"Selected: {beatmap.songName}";
         }
 
         /// <summary>
@@ -116,12 +116,12 @@ namespace RhythmGame
                 songNameText.text = selectedBeatmap.songName;
                 int noteCount = selectedBeatmap.notes != null ? selectedBeatmap.notes.Count : 0;
                 float duration = selectedBeatmap.GetDuration();
-                songInfoText.text = $"BPM: {selectedBeatmap.bpm} | 下落速度: {selectedBeatmap.fallSpeed}\n" +
-                                    $"音符数: {noteCount} | 时长: {duration:F1}s";
+                songInfoText.text = $"BPM: {selectedBeatmap.bpm} | Speed: {selectedBeatmap.fallSpeed}\n" +
+                                    $"Notes: {noteCount} | Duration: {duration:F1}s";
             }
             else
             {
-                songNameText.text = "请选择歌曲";
+                songNameText.text = "Select a Song";
                 songInfoText.text = "";
             }
         }
@@ -151,21 +151,21 @@ namespace RhythmGame
         {
             if (musicPathInput == null || string.IsNullOrEmpty(musicPathInput.text))
             {
-                statusText.text = "请先在路径框中输入音乐文件路径（例如：D:\\Music\\song.mp3）";
+                statusText.text = "Enter music file path first (e.g. D:\\Music\\song.mp3)";
                 return;
             }
 
             string path = musicPathInput.text.Trim();
             if (!File.Exists(path))
             {
-                statusText.text = $"文件不存在：{path}";
+                statusText.text = $"File not found: {path}";
                 return;
             }
 
             string ext = Path.GetExtension(path).ToLower();
             if (ext != ".mp3" && ext != ".wav" && ext != ".ogg" && ext != ".aiff")
             {
-                statusText.text = $"不支持的音频格式：{ext}（支持 MP3/WAV/OGG/AIFF）";
+                statusText.text = $"Unsupported format: {ext} (MP3/WAV/OGG/AIFF only)";
                 return;
             }
 
@@ -180,7 +180,7 @@ namespace RhythmGame
             string musicDir = System.IO.Path.Combine(Application.streamingAssetsPath, "Music");
             if (!Directory.Exists(musicDir))
             {
-                statusText.text = $"音乐文件夹不存在：{musicDir}\n请创建该文件夹并放入 MP3/WAV 文件。";
+                statusText.text = $"Music folder not found: {musicDir}\nCreate it and add MP3/WAV files.";
                 return;
             }
 
@@ -196,13 +196,13 @@ namespace RhythmGame
                 }
             }
             statusText.text = count > 0
-                ? $"正在导入 {count} 首音乐..."
-                : "未找到音乐文件，请将 MP3/WAV 放入 StreamingAssets/Music/ 文件夹。";
+                ? $"Importing {count} songs..."
+                : "No music found. Put MP3/WAV in StreamingAssets/Music/ folder.";
         }
 
         private System.Collections.IEnumerator ImportMusicFromPath(string filePath)
         {
-            statusText.text = "正在加载音乐...";
+            statusText.text = "Loading music...";
             string url = "file://" + filePath;
 
             using (var www = UnityEngine.Networking.UnityWebRequestMultimedia.GetAudioClip(url, AudioType.UNKNOWN))
@@ -213,12 +213,12 @@ namespace RhythmGame
                 {
                     importedMusic = UnityEngine.Networking.DownloadHandlerAudioClip.GetContent(www);
                     importedMusic.name = Path.GetFileNameWithoutExtension(filePath);
-                    statusText.text = $"已导入：{importedMusic.name}";
+                    statusText.text = $"Imported: {importedMusic.name}";
                     Debug.Log($"[SongSelectUI] 成功导入音乐：{importedMusic.name}");
                 }
                 else
                 {
-                    statusText.text = $"导入失败：{www.error}";
+                    statusText.text = $"Import failed: {www.error}";
                     Debug.LogError($"[SongSelectUI] 音乐导入失败：{www.error}");
                 }
             }

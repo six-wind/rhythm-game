@@ -122,7 +122,6 @@ namespace RhythmGame
             col.size = new Vector2(1f, 0.8f);
 
             prefab.AddComponent<NoteController>();
-            prefab.tag = "Note";
 
             return prefab;
         }

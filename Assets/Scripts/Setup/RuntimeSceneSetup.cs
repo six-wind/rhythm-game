@@ -68,7 +68,7 @@ namespace RhythmGame
             if (AudioManager.Instance != null) return;
             GameObject go = CreateSingletonObject<AudioManager>("AudioManager");
 
-            // 添加 AudioSource
+            // 添加 AudioSource + AudioListener
             AudioSource source = go.GetComponent<AudioSource>();
             if (source == null)
             {
@@ -77,6 +77,9 @@ namespace RhythmGame
                 source.loop = false;
                 source.volume = 0.8f;
             }
+            // AudioListener 必须存在，放在 AudioManager 上
+            if (go.GetComponent<AudioListener>() == null)
+                go.AddComponent<AudioListener>();
         }
 
         private static void SetupScoreManager()
@@ -337,7 +340,7 @@ namespace RhythmGame
             // 歌曲信息
             GameObject songName = CreateTMPText("SongName", panelObj.transform,
                 new Vector2(-20, -90), new Vector2(300, 40),
-                "请选择歌曲", 24, TextAlignmentOptions.Left);
+                "Select a Song", 24, TextAlignmentOptions.Left);
             RectTransform snRT = songName.GetComponent<RectTransform>();
             snRT.anchorMin = new Vector2(0.5f, 1f);
             snRT.anchorMax = new Vector2(0.5f, 1f);
