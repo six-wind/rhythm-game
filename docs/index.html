@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rhythm Game - 4键下落式节奏音游</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffd700, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .download-section {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a4a;
+        }
+
+        .os-selector {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .os-btn {
+            padding: 10px 20px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background: transparent;
+            color: #aaa;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .os-btn:hover, .os-btn.active {
+            border-color: #4ecdc4;
+            color: #4ecdc4;
+            background: rgba(78, 205, 196, 0.1);
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 16px 48px;
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            color: #000;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px 0;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(78, 205, 196, 0.3);
+        }
+
+        .version {
+            color: #888;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .feature {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #2a2a4a;
+        }
+
+        .feature h3 {
+            color: #4ecdc4;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .feature p {
+            color: #888;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+
+        .footer {
+            margin-top: 40px;
+            color: #555;
+            font-size: 0.85em;
+        }
+
+        .footer a {
+            color: #4ecdc4;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .webgl-badge {
+            display: inline-block;
+            background: #ffd700;
+            color: #000;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Rhythm Game</h1>
+        <p class="subtitle">4键下落式节奏音游 — 导入你的音乐，开始挑战！</p>
+
+        <div class="download-section">
+            <div class="os-selector">
+                <button class="os-btn active" data-os="windows">🖥 Windows</button>
+                <button class="os-btn" data-os="macos">🍎 macOS</button>
+                <button class="os-btn" data-os="webgl">🌐 浏览器 <span class="webgl-badge">免下载</span></button>
+            </div>
+
+            <div id="download-area">
+                <a id="download-link" href="#" class="download-btn">⬇ 下载 Windows 版</a>
+                <p class="version" id="version-text">最新版本</p>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <h3>🎶 自定义音乐</h3>
+                <p>导入任意 MP3/WAV 音乐，打造专属谱面</p>
+            </div>
+            <div class="feature">
+                <h3>🎯 精准判定</h3>
+                <p>Perfect / Good / Miss 三段判定，基于音频时间</p>
+            </div>
+            <div class="feature">
+                <h3>⌨️ 四键操作</h3>
+                <p>D F J K 对应四条轨道，简洁直观</p>
+            </div>
+            <div class="feature">
+                <h3>📊 数据统计</h3>
+                <p>实时分数、连击、最大连击，不断挑战自我</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>开源项目 · <a href="https://github.com/six-wind/rhythm-game" target="_blank">GitHub</a></p>
+            <p>Made with Unity</p>
+        </div>
+    </div>
+
+    <script>
+        const RELEASES_API = 'https://api.github.com/repos/six-wind/rhythm-game/releases/latest';
+        const GITHUB_RELEASES = 'https://github.com/six-wind/rhythm-game/releases/latest';
+
+        let latestRelease = null;
+
+        async function fetchLatestRelease() {
+            try {
+                const resp = await fetch(RELEASES_API);
+                if (resp.ok) {
+                    latestRelease = await resp.json();
+                    updateVersion();
+                }
+            } catch (e) {
+                console.log('无法获取 Release 信息：', e);
+            }
+        }
+
+        function updateVersion() {
+            if (latestRelease) {
+                document.getElementById('version-text').textContent =
+                    `版本 ${latestRelease.tag_name}`;
+            }
+        }
+
+        function detectOS() {
+            const ua = navigator.userAgent;
+            if (ua.indexOf('Windows') !== -1) return 'windows';
+            if (ua.indexOf('Mac') !== -1) return 'macos';
+            return 'windows'; // 默认 Windows
+        }
+
+        function updateDownloadLink(os) {
+            const link = document.getElementById('download-link');
+            let downloadUrl = GITHUB_RELEASES;
+            let label = '';
+
+            switch (os) {
+                case 'windows':
+                    label = '⬇ 下载 Windows 版';
+                    break;
+                case 'macos':
+                    label = '⬇ 下载 macOS 版';
+                    break;
+                case 'webgl':
+                    label = '🎮 在浏览器中玩';
+                    downloadUrl = '/rhythm-game/webgl/';
+                    break;
+            }
+
+            link.textContent = label;
+            link.href = downloadUrl;
+        }
+
+        document.querySelectorAll('.os-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.os-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                updateDownloadLink(this.dataset.os);
+            });
+        });
+
+        // 自动检测操作系统
+        const userOS = detectOS();
+        const osBtn = document.querySelector(`[data-os="${userOS}"]`);
+        if (osBtn) {
+            document.querySelectorAll('.os-btn').forEach(b => b.classList.remove('active'));
+            osBtn.classList.add('active');
+            updateDownloadLink(userOS);
+        }
+
+        fetchLatestRelease();
+    </script>
+</body>
+</html>
