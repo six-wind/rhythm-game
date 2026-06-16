@@ -157,7 +157,7 @@ namespace RhythmGame
             // ── 连击文本（顶部中央） ──
             GameObject comboObj = CreateTMPText("ComboText", hudObj.transform,
                 new Vector2(0, -20), new Vector2(300, 80),
-                "", 48, TextAlignmentOptions.TopCenter);
+                "", 48, TextAlignmentOptions.Top);
             // 锚点居中
             RectTransform comboRT = comboObj.GetComponent<RectTransform>();
             comboRT.anchorMin = new Vector2(0.5f, 1f);

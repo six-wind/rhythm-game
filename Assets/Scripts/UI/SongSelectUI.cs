@@ -24,7 +24,7 @@ namespace RhythmGame
 
         [Header("文件导入")]
         public Button importMusicButton;
-        public Button importBeatmapButton;
+        public TMP_InputField musicPathInput;  // 用户粘贴音乐文件路径
 
         [Header("状态")]
         public TextMeshProUGUI statusText;
@@ -116,7 +116,7 @@ namespace RhythmGame
                 songNameText.text = selectedBeatmap.songName;
                 int noteCount = selectedBeatmap.notes != null ? selectedBeatmap.notes.Count : 0;
                 float duration = selectedBeatmap.GetDuration();
-                songInfoText.text = $"BPM: {selectedBeatmap.BPM} | 下落速度: {selectedBeatmap.fallSpeed}\n" +
+                songInfoText.text = $"BPM: {selectedBeatmap.bpm} | 下落速度: {selectedBeatmap.fallSpeed}\n" +
                                     $"音符数: {noteCount} | 时长: {duration:F1}s";
             }
             else
@@ -145,21 +145,59 @@ namespace RhythmGame
         }
 
         /// <summary>
-        /// 导入自定义音乐文件
+        /// 导入自定义音乐文件（通过输入文件路径）
         /// </summary>
         private void OnImportMusicClicked()
         {
-            // 在 Standalone 平台使用文件浏览器
-#if UNITY_STANDALONE_WIN || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
-            string[] extensions = new[] { "mp3", "wav", "ogg" };
-            string path = OpenFileDialog("选择音乐文件", extensions);
-            if (!string.IsNullOrEmpty(path))
+            if (musicPathInput == null || string.IsNullOrEmpty(musicPathInput.text))
             {
-                StartCoroutine(ImportMusicFromPath(path));
+                statusText.text = "请先在路径框中输入音乐文件路径（例如：D:\\Music\\song.mp3）";
+                return;
             }
-#else
-            statusText.text = "当前平台不支持文件浏览器，请在编辑器中拖拽音乐文件。";
-#endif
+
+            string path = musicPathInput.text.Trim();
+            if (!File.Exists(path))
+            {
+                statusText.text = $"文件不存在：{path}";
+                return;
+            }
+
+            string ext = Path.GetExtension(path).ToLower();
+            if (ext != ".mp3" && ext != ".wav" && ext != ".ogg" && ext != ".aiff")
+            {
+                statusText.text = $"不支持的音频格式：{ext}（支持 MP3/WAV/OGG/AIFF）";
+                return;
+            }
+
+            StartCoroutine(ImportMusicFromPath(path));
+        }
+
+        /// <summary>
+        /// 扫描 StreamingAssets/Music 文件夹中的音乐文件
+        /// </summary>
+        public void ScanMusicFolder()
+        {
+            string musicDir = System.IO.Path.Combine(Application.streamingAssetsPath, "Music");
+            if (!Directory.Exists(musicDir))
+            {
+                statusText.text = $"音乐文件夹不存在：{musicDir}\n请创建该文件夹并放入 MP3/WAV 文件。";
+                return;
+            }
+
+            string[] files = Directory.GetFiles(musicDir, "*.*", SearchOption.AllDirectories);
+            int count = 0;
+            foreach (string file in files)
+            {
+                string ext = Path.GetExtension(file).ToLower();
+                if (ext == ".mp3" || ext == ".wav" || ext == ".ogg")
+                {
+                    StartCoroutine(ImportMusicFromPath(file));
+                    count++;
+                }
+            }
+            statusText.text = count > 0
+                ? $"正在导入 {count} 首音乐..."
+                : "未找到音乐文件，请将 MP3/WAV 放入 StreamingAssets/Music/ 文件夹。";
         }
 
         private System.Collections.IEnumerator ImportMusicFromPath(string filePath)
@@ -185,38 +223,5 @@ namespace RhythmGame
                 }
             }
         }
-
-#if UNITY_STANDALONE_WIN
-        /// <summary>
-        /// Windows 文件打开对话框（使用 System.Windows.Forms）
-        /// </summary>
-        private string OpenFileDialog(string title, string[] extensions)
-        {
-            // 注意：此方法需要项目设置中开启 System.Windows.Forms 兼容性
-            // Player Settings → Configuration → Api Compatibility Level → .NET Framework
-            try
-            {
-                var dialog = new System.Windows.Forms.OpenFileDialog();
-                dialog.Title = title;
-                dialog.Filter = "音频文件|*." + string.Join(";*.", extensions);
-                dialog.Multiselect = false;
-
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    return dialog.FileName;
-                }
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogWarning($"[SongSelectUI] 文件对话框异常：{e.Message}");
-            }
-            return null;
-        }
-#else
-        private string OpenFileDialog(string title, string[] extensions)
-        {
-            return null;
-        }
-#endif
     }
 }

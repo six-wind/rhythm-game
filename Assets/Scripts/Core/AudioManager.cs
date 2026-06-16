@@ -81,7 +81,7 @@ namespace RhythmGame
             audioSource.clip = clip;
 
             // 预加载音频数据，避免首次播放时的卡顿和延迟
-            if (clip.loadType != AudioDataLoadState.Loaded)
+            if (clip.loadState != AudioDataLoadState.Loaded)
             {
                 clip.LoadAudioData();
                 while (clip.loadState != AudioDataLoadState.Loaded)
