@@ -58,7 +58,7 @@ namespace RhythmGame.Editor
 
             if (beatmap == null)
             {
-                EditorGUILayout.HelpBox("请先选择一个 BeatmapData 资源，或点击"新建谱面"创建。", MessageType.Info);
+                EditorGUILayout.HelpBox("请先选择一个 BeatmapData 资源，或点击 [新建谱面] 创建。", MessageType.Info);
 
                 if (GUILayout.Button("新建谱面", GUILayout.Height(30)))
                     CreateNewBeatmap();
